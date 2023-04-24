@@ -1,0 +1,6 @@
+{
+"app.header" : "Chỉnh sửa <code>{fileName}</code> js và lưu để tải lại trang" ,
+  "app.content" : "Học React" ,
+  "app.channel.plug": "Hướng dẫn được thực hiện bởi {blogName}",
+  "app.plural": "{amount, plural, =0 {no languages} one {# one language} few {# several languages} many {# lots of languages} other {# wrong fromat}}"
+}

@@ -3,10 +3,7 @@
 // Danh sách file các ngôn ngữ trong file lang
 import React, { useState } from 'react';
 import { IntlProvider } from 'react-intl';
-import French from '../lang/fr.json';
-import Arabic from '../lang/ar.json';
-import English from '../lang/en.json';
-import Vietnamese from '../lang/vn.json'
+import { English, Vietnamese } from "c:/Users/Admin/VSC workspace/ReactJs Project/QLTS/src/assets/lang/index";
 
 export const Context = React.createContext();
 
@@ -19,15 +16,7 @@ let lang;
 if (local === 'en') {
     lang = English;
 } else {
-    if (local === 'fr') {
-        lang = French;
-    }
-    if (local === 'vn') {
-        lang = Vietnamese
-    }
-    else {
-        lang = Arabic;
-    }
+    lang = Vietnamese;
 }
 
 const Wrapper = (props) => {
@@ -41,14 +30,7 @@ const Wrapper = (props) => {
         if (newLocale === 'en') {
             setMessages(English);
         } else {
-            if (newLocale === 'fr') {
-                setMessages(French);
-            }
-            if (newLocale === 'vn') {
-                setMessages(Vietnamese);
-            } else {
-                setMessages(Arabic);
-            }
+            setMessages(Vietnamese);
         }
     }
 
@@ -61,6 +43,5 @@ const Wrapper = (props) => {
 
     );
 }
-
 
 export default Wrapper;

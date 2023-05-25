@@ -1,22 +1,16 @@
 import React, { useContext } from 'react';
-import logo from './logo.svg';
+import logo from './assets/logo/logo.svg'
 import './App.css';
 import { FormattedMessage, FormattedDate, FormattedNumber, FormattedPlural, FormattedTime } from 'react-intl';
-import { Context } from "./components/Wrapper";
+import { Context } from './components/lang/Wrapper';
 //Import kết nối tới react-redux
 import { connect } from 'react-redux'
 //Import action dùng để dispatch
-import { actAddNote } from './actions/index'
+import { actAddNote } from './redux/actions/index'
 import { Route, Routes } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-
-import Home from './components/Home';
-import About from './components/About';
-import Shop from './components/Shop'
-import Error from './components/Error'
-
-import { useDispatch } from "react-redux";
-import { useEffect, useSelector } from "react";
+import Login from './layout/authentication/sign-in/login';
+import { Home, Error, Shop, About } from './components/routes/index';
 
 
 function App(props) {
@@ -48,81 +42,78 @@ function App(props) {
   )
 
   return (
+    <>
+      <><div className="App">
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <select value={context.locale} onChange={context.selectLanguage}>
+            <option value='en'>English</option>
+            <option value='vn'>Vietnam</option>
 
+          </select>
+          <p>
+            <FormattedMessage
+              id="app.header"
+              defaultMessage="Edit the files and save to reload"
+              values={{ fileName: 'src/App.js', code: (word) => <strong>{word}</strong> }} />
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FormattedMessage
+              id="app.content"
+              defaultMessage="Learn React" />
 
-    <><><><div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <select value={context.locale} onChange={context.selectLanguage}>
-          <option value='en'>English</option>
-          <option value='fr'>French</option>
-          <option value='ar'>Arabic</option>
-          <option value='vn'>Vietnam</option>
-
-        </select>
-        <p>
+          </a>
           <FormattedMessage
-            id="app.header"
-            defaultMessage="Edit the files and save to reload"
-            values={{ fileName: 'src/App.js', code: (word) => <strong>{word}</strong> }} />
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FormattedMessage
-            id="app.content"
-            defaultMessage="Learn React" />
+            id="app.channel.plug"
+            defaultMessage="Tutorial brought to you by Lokalise"
+            values={{ blogName: "Lokalise" }} />
+          <br />
+          <FormattedPlural
+            id="app.plural"
+            defaultMessage="{amount, plural, =0 {no languages} one {# one language} few {# several languages} many {# lots of languages} other {# wrong fromat}}"
+            values={{ amount: 90 }} />
+          <br />
+          <FormattedDate
+            value={props.date}
+            year='numeric'
+            month='long'
+            day='numeric'
+            weekday='long' />
+          <br />
+          <FormattedNumber
+            value={20.42}
+            style="currency"
+            currencyDisplay="symbol"
+            currency="USD" /><br />
+          <FormattedNumber
+            value={10000} />
+          <br />
+          <FormattedTime
+            value={new Date()}
+            hour="numeric"
+            minute="numeric"
+            second="numeric"
+            timeZoneName="long" />
+        </header>
 
-        </a>
-        <FormattedMessage
-          id="app.channel.plug"
-          defaultMessage="Tutorial brought to you by Lokalise"
-          values={{ blogName: "Lokalise" }} />
-        <br />
-        <FormattedPlural
-          id="app.plural"
-          defaultMessage="{amount, plural, =0 {no languages} one {# one language} few {# several languages} many {# lots of languages} other {# wrong fromat}}"
-          values={{ amount: 90 }} />
-        <br />
-        <FormattedDate
-          value={props.date}
-          year='numeric'
-          month='long'
-          day='numeric'
-          weekday='long' />
-        <br />
-        <FormattedNumber
-          value={20.42}
-          style="currency"
-          currencyDisplay="symbol"
-          currency="USD" /><br />
-        <FormattedNumber
-          value={10000} />
-        <br />
-        <FormattedTime
-          value={new Date()}
-          hour="numeric"
-          minute="numeric"
-          second="numeric"
-          timeZoneName="long" />
-      </header>
+        {/* SỬ DỤNG REACT-ROUTER */}
 
-      {/* SỬ DỤNG REACT ROUTER */}
-
-      {/* Route có nhiệm vụ render component theo path được chỉ định.
-Trong trường hợp ở trên Route có path là / có thêm một props nữa là exact bởi hầu hết các path đều thông qua.
-Khi một route không có thuộc tính path thì render component khi URL không tồn tại. */}
-    </div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/error" element={<Error />} />
-      </Routes>
-    </>
+        {/* Route có nhiệm vụ render component theo path được chỉ định.
+      Trong trường hợp ở trên Route có path là / có thêm một props nữa là exact bởi hầu hết các path đều thông qua.
+      Khi một route không có thuộc tính path thì render component khi URL không tồn tại. */}
+      </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/error" element={<Error />} />
+        </Routes>
+      </>
 
 
       {/* SỬ DỤNG REACT-HOOK-FORM */}
@@ -134,7 +125,7 @@ Khi một route không có thuộc tính path thì render component khi URL khô
         <input defaultValue="test" {...register("example")} />
 
         {/* đăng kí thẻ input với React-Hook-Form với tên "exampleRequired"
-    // validate là required */}
+        // validate là required */}
         <input {...register("exampleRequired", { required: true })} />
 
         {/* xử lý lỗi bằng errrors */}
@@ -142,16 +133,14 @@ Khi một route không có thuộc tính path thì render component khi URL khô
 
         <input type="submit" />
       </form>
-    </>
-    </>
+      <Login />
 
+    </>
   );
-
-
 }
 
 
-// SỬ DỤNG REDUX
+// TÍCH HỢP REDUX
 
 // Gán dispatch thành props
 // mapDispatchToProps: giúp chuyển dispatch trong redux thành props. 
@@ -171,8 +160,6 @@ const mapStateToProps = (state, ownProps) => {
     note: state.note
   }
 }
-
-
 
 //Export component với két nối redux.
 export default connect(mapStateToProps, mapDispatchToProps)(App);

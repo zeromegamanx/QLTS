@@ -3,14 +3,14 @@ import logo from './assets/logo/logo.svg'
 import './App.css';
 import { FormattedMessage, FormattedDate, FormattedNumber, FormattedPlural, FormattedTime } from 'react-intl';
 import { Context } from './components/lang/Wrapper';
-//Import kết nối tới react-redux
+// Import kết nối tới react-redux
 import { connect } from 'react-redux'
 //Import action dùng để dispatch
 import { actAddNote } from './redux/actions/index'
 import { Route, Routes } from 'react-router-dom';
 import { useForm } from "react-hook-form";
-import Login from './layout/authentication/sign-in/login';
-import { Home, Error, Shop, About } from './components/routes/index';
+import Login from './layout/authentication//LoginForm';
+import { Home, About } from './components/routes';
 
 
 function App(props) {
@@ -116,50 +116,50 @@ function App(props) {
       </>
 
 
-      {/* SỬ DỤNG REACT-HOOK-FORM */}
+//       {/* SỬ DỤNG REACT-HOOK-FORM */}
 
-      {/* Hàm handleSubmit sẽ validate trước khi gọi hàm onSubmit */}
-      <form onSubmit={handleSubmit(onSubmit)}>
+//       {/* Hàm handleSubmit sẽ validate trước khi gọi hàm onSubmit */}
+//       <form onSubmit={handleSubmit(onSubmit)}>
 
-        {/* đăng kí input cho Hook vói tên example */}
-        <input defaultValue="test" {...register("example")} />
+//         {/* đăng kí input cho Hook vói tên example */}
+         <input defaultValue="test" {...register("example")} />
 
-        {/* đăng kí thẻ input với React-Hook-Form với tên "exampleRequired"
-        // validate là required */}
-        <input {...register("exampleRequired", { required: true })} />
+         {/* đăng kí thẻ input với React-Hook-Form với tên "exampleRequired"
+         // validate là required */}
+         <input {...register("exampleRequired", { required: true })} />
 
-        {/* xử lý lỗi bằng errrors */}
-        {errors.exampleRequired && <span>This field is required</span>}
+         {/* xử lý lỗi bằng errrors */}
+         {errors.exampleRequired && <span>This field is required</span>}
 
-        <input type="submit" />
-      </form>
+         <input type="submit" />
+       </form>
       <Login />
 
-    </>
-  );
-}
+     </>
+   );
+ }
 
 
-// TÍCH HỢP REDUX
+ // TÍCH HỢP REDUX
 
-// Gán dispatch thành props
-// mapDispatchToProps: giúp chuyển dispatch trong redux thành props. 
-// Giả sử muốn thực hiện dispatch action actAddNote thì chỉ cần gọi props.addNote()
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addNote: (content) => {
-      dispatch(actAddNote(content))
-    }
-  }
-}
+ // Gán dispatch thành props
+ // mapDispatchToProps: giúp chuyển dispatch trong redux thành props. 
+ // Giả sử muốn thực hiện dispatch action actAddNote thì chỉ cần gọi props.addNote()
+ const mapDispatchToProps = (dispatch) => {
+   return {
+     addNote: (content) => {
+       dispatch(actAddNote(content))
+     }
+   }
+ }
 
-//Gán giá trị của state thành props
-//mapStateToProps: giúp chuyển state sang thành props sử dụng trong component.
-const mapStateToProps = (state, ownProps) => {
-  return {
-    note: state.note
-  }
-}
+ //Gán giá trị của state thành props
+ //mapStateToProps: giúp chuyển state sang thành props sử dụng trong component.
+ const mapStateToProps = (state, ownProps) => {
+   return {
+     note: state.note
+   }
+ }
 
 //Export component với két nối redux.
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+ export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -14,23 +14,23 @@ import {
     Stack, 
     Typography, 
     TextField, 
-    Hidden,
     Paper,
 } from '@mui/material'; 
 import {useForm, Controller} from 'react-hook-form'; 
 import CircularProgress from '@mui/material/CircularProgress';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {makeStyles} from '@mui/styles'; 
 import { useNavigate } from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
-import logoImage from '../../images/logos/kse_logo.png'; 
-import imageLogin from '../../images/loginImage.ipg'; 
+import { createStructuredSelector } from 'reselect';
+import {compose} from 'redux'; 
+import { connect } from 'react-redux';
+import makeSelectLoginForm from './selector'
+
 
 function LoginForm(props) {
     const {loginPage, onLogin, onReset, onGetUserDataAction, pathname, onSetPathNameAction} = props;
     const {t} = useTranslation(); 
-    const classes = useStyle(); 
     const {enqueueSnackbar} = useSnackbar(); 
     const navigate = useNavigate();
     const {
@@ -53,9 +53,9 @@ function LoginForm(props) {
     }; 
     
     const onSubmit = (data) => {
+        console.log(data);
         onLogin({
             ...data, 
-            isLdap: false, 
         });
     };
 
@@ -92,7 +92,7 @@ function LoginForm(props) {
 
     return ( 
         <> 
-        <Paper className={classes.containerForm}>
+        <Paper>
             <Grid container>
                 <Grid item md={6} xs={12} sm={6} style={{padding:'40px'}}>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -116,6 +116,7 @@ function LoginForm(props) {
                                         <TextField 
                                             label={t('authPage.userName')}
                                             value={value}
+                                            placeholder='Username'
                                             onChange={onChange}
                                             fullWidth
                                         />
@@ -139,6 +140,7 @@ function LoginForm(props) {
                                                 label={t('authPage.matKhau')}
                                                 type={showPassword ? 'text': 'password'}
                                                 value={value || ''}
+                                                placeholder='Password'
                                                 onChange={onChange}
                                                 endAdorment={
                                                     <InputAdornment position="end">
@@ -180,9 +182,8 @@ function LoginForm(props) {
                                 size="large"
                                 type="submit"
                                 variant="container"
-                                color="primary"
-                                disabled={loginPage.loading}>
-                                    {loginPage.loading ? <CircularProgress size={24}/>: 'ĐĂNG NHẬP' }
+                                color="primary">
+                                    ĐĂNG NHẬP
                             </Button>
                         </Box>
                     </form>
@@ -200,4 +201,21 @@ LoginForm.propTypes = {
     onGetUserDataAction: PropTypes.func,
 }; 
 
-export default LoginForm 
+const mapStateToProps = createStructuredSelector({
+    loginPage: makeSelectLoginForm(),
+  });
+  
+function mapDispatchToProps(dispatch) {
+    return {
+      dispatch,
+    };
+  }
+  
+const withConnect = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  );
+  
+export default compose(
+    withConnect,
+  )(LoginForm); 
